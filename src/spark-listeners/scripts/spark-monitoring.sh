@@ -19,13 +19,13 @@ SPARK_CONF_DIR=$SPARK_HOME/conf
 tee -a "$SPARK_CONF_DIR/spark-env.sh" << EOF
 export DB_CLUSTER_ID=$DB_CLUSTER_ID
 export DB_CLUSTER_NAME=$DB_CLUSTER_NAME
-export LOG_ANALYTICS_WORKSPACE_ID=
-export LOG_ANALYTICS_WORKSPACE_KEY=
-export AZ_SUBSCRIPTION_ID=
-export AZ_RSRC_GRP_NAME=
-export AZ_RSRC_PROV_NAMESPACE=
-export AZ_RSRC_TYPE=
-export AZ_RSRC_NAME=
+export LOG_ANALYTICS_WORKSPACE_ID=${LOG_ANALYTICS_WORKSPACE_ID}
+export LOG_ANALYTICS_WORKSPACE_KEY=${LOG_ANALYTICS_WORKSPACE_KEY}
+export AZ_SUBSCRIPTION_ID=${AZ_SUBSCRIPTION_ID}
+export AZ_RSRC_GRP_NAME=${AZ_RSRC_GRP_NAME}
+export AZ_RSRC_PROV_NAMESPACE=${AZ_RSRC_PROV_NAMESPACE}
+export AZ_RSRC_TYPE=${AZ_RSRC_TYPE}
+export AZ_RSRC_NAME=${AZ_RSRC_NAME}
 
 # Note: All REGEX filters below are implemented with java.lang.String.matches(...).  This implementation essentially appends ^...$ around
 # the regular expression, so the entire string must match the regex.  If you need to allow for other values you should include .* before and/or
@@ -38,7 +38,7 @@ export AZ_RSRC_NAME=
 
 # Add a quoted regex value to filter the events for SparkMetric_CL, the log will only include events where name_s matches the regex.
 # Commented example below will only log metrics where the name begins with app and ends in .jvmCpuTime or .heap.max.
-# export LA_SPARKMETRIC_REGEX="app.*\.jvmCpuTime|app.*\.heap.max"
+export LA_SPARKMETRIC_REGEX="app.*\.jvmCpuTime|app.*\.heap.max"
 
 # Add a quoted regex value to filter the events for SparkLoggingEvent_CL, the log will only include events where logger_name_s matches the name regex
 # or where the Message matches the message regex.  If both are specified, then both must be matched for the log to be sent.
@@ -55,7 +55,7 @@ STAGE_DIR=/dbfs/databricks/spark-monitoring
 SPARK_LISTENERS_VERSION=${SPARK_LISTENERS_VERSION:-1.0.0}
 SPARK_LISTENERS_LOG_ANALYTICS_VERSION=${SPARK_LISTENERS_LOG_ANALYTICS_VERSION:-1.0.0}
 SPARK_VERSION=$(cat /databricks/spark/VERSION 2> /dev/null || echo "")
-SPARK_VERSION=${SPARK_VERSION:-3.2.1}
+SPARK_VERSION=${SPARK_VERSION:-3.1.2}
 SPARK_SCALA_VERSION=$(ls /databricks/spark/assembly/target | cut -d '-' -f2 2> /dev/null || echo "")
 SPARK_SCALA_VERSION=${SPARK_SCALA_VERSION:-2.12}
 
